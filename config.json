@@ -1,0 +1,22 @@
+{
+    "mongodb": {
+      "repositories": {
+        "UsersRepo": {
+          "con_str": "mongodb://localhost:27017/",
+          "database_name": "users_db",
+          "collection_name": "users"
+        },
+        "QuestionsRepo": {
+          "con_str": "mongodb://localhost:27017/",
+          "database_name": "QuestionsRepo",
+          "collection_name": "questions"
+        },
+        "TestsRepo": {
+          "con_str": "mongodb://localhost:27017/",
+          "database_name": "testsRepo",
+          "collection_name": "tests"
+        }
+      }
+    }
+  }
+  

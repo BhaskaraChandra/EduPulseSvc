@@ -1,0 +1,69 @@
+chandrabhaskaras/mongo2024
+mongodb+srv://<db_username>:<db_password>@cluster0.tfhh3.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+mongodb+srv://chandrabhaskaras:<db_password>@cluster0.tfhh3.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+Here's a step-by-step guide to creating the QuestionBank service using FastAPI and MongoDB:
+
+Step 1: Install Required Libraries
+
+bash
+pip install fastapi uvicorn motor
+
+
+Step 2: Create a New FastAPI Project
+Create a new file called main.py and add the following code:
+
+
+from fastapi import FastAPI
+from motor.motor_asyncio import AsyncIOMotorClient
+
+app = FastAPI()
+
+# MongoDB connection settings
+MONGO_HOST = "localhost"
+MONGO_PORT = 27017
+MONGO_DB = "questionbank"
+
+# Create a MongoDB client
+client = AsyncIOMotorClient(MONGO_HOST, MONGO_PORT)
+
+# Get a reference to the database
+db = client[MONGO_DB]
+
+
+Step 3: Define the GET /topicsMetadata Endpoint
+Add the following code to main.py:
+
+
+@app.get("/topicsMetadata/")
+async def get_topics_metadata():
+    topics_metadata_collection = db["SubjectGradeTopicSubtopic"]
+    topics_metadata = await topics_metadata_collection.find().to_list(None)
+    return topics_metadata
+
+
+Step 4: Define the GET /questions Endpoint
+Add the following code to main.py:
+
+
+@app.get("/questions/")
+async def get_questions(ids: list):
+    questions_collection = db["questions"]
+    questions = await questions_collection.find({"_id": {"$in": ids}}).to_list(None)
+    return questions
+
+
+Step 5: Run the FastAPI Application
+Run the following command in your terminal:
+
+
+bash
+uvicorn main:app --reload
+
+
+Step 6: Test the Endpoints
+Use a tool like curl or Postman to test the endpoints:
+
+- GET http://localhost:8000/topicsMetadata/
+- GET http://localhost:8000/questions/?ids=ID1,ID2,ID3 (replace ID1, ID2, ID3 with actual IDs)
+
+That's it! You now have a basic QuestionBank service up and running using FastAPI and MongoDB.
