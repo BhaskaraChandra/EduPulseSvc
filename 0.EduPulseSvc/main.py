@@ -7,7 +7,7 @@ import json
 import random
 import string
 import time
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from motor.motor_asyncio import AsyncIOMotorClient
 from fastapi import Query
 from pydantic import BaseModel
@@ -47,11 +47,20 @@ def timer_decorator(func):
         return result
     return wrapper
 
+@app.get("/")
+async def Welcome():
+    return "Welcome to Edupulse Microservice!"
+
 @app.get("/topicsMetadata/")
 async def get_topics_metadata():
-    topics_metadata_collection = db["SubjectGradeTopicSubtopic"]
-    topics_metadata = await topics_metadata_collection.find().to_list(None)
-    return topics_metadata
+    try:
+        topics_metadata_collection = db["SubjectGradeTopicSubtopic"]
+        topics_metadata = await topics_metadata_collection.find().to_list(None)
+        return topics_metadata
+        pass
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
 '''
 @app.get("/questionsrequestbody/")
 async def get_questionsRequestBody(ids: list):
