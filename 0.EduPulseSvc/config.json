@@ -2,18 +2,18 @@
     "mongodb": {
       "repositories": {
         "UsersRepo": {
-          "con_str": "mongodb+srv://chandrabhaskaras:mongo2024@cluster0.tfhh3.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0",
+          "con_str": "mongodb+srv://chandrabhaskaras:mongo2024@cluster0.tfhh3.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0/?ssl=true&ssl_cert_reqs=ssl.CERT_NONE",
           "con_strlocal": "mongodb://localhost:27017/",
           "database_name": "users_db",
           "collection_name": "users"
         },
         "QuestionsRepo": {
-          "con_str": "mongodb+srv://chandrabhaskaras:mongo2024@cluster0.tfhh3.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0",
+          "con_str": "mongodb+srv://chandrabhaskaras:mongo2024@cluster0.tfhh3.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0/?ssl=true&ssl_cert_reqs=ssl.CERT_NONE",
           "database_name": "QuestionsRepo",
           "collection_name": "questions"
         },
         "TestsRepo": {
-          "con_str": "mongodb+srv://chandrabhaskaras:mongo2024@cluster0.tfhh3.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0",
+          "con_str": "mongodb+srv://chandrabhaskaras:mongo2024@cluster0.tfhh3.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0?ssl=true&ssl_cert_reqs=ssl.CERT_NONE",
           "database_name": "testsRepo",
           "collection_name": "tests"
         }
