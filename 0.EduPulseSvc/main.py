@@ -8,6 +8,7 @@ import random
 import string
 import time
 from fastapi import FastAPI, HTTPException
+from fastapi.responses import HTMLResponse
 from motor.motor_asyncio import AsyncIOMotorClient
 from fastapi import Query
 from pydantic import BaseModel
@@ -49,7 +50,18 @@ def timer_decorator(func):
 
 @app.get("/")
 async def Welcome():
-    return "Welcome to Edupulse Microservice!"
+    ret="<html>"
+    ret+="Welcome to Edupulse Microservice!<br>"
+    ret+="1.QuestionsService<br>"
+    ret+="----GET /topicsMetadata/<br>"
+    ret+="----POST /usertopicsMetadata/<br>"
+    ret+="2.TestsService<br>"
+    ret+="----post(/quicktest/) IN:testConfigJson containing _id:userEmail<br>"
+    ret+="----get(/quicktest/) IN:userEmail OUT:Json with Questions<br>"
+    ret+="----post(/submitquicktest/)<br>"
+    ret+="3.UsersService<br>"
+    ret+="</html>"
+    return HTMLResponse(content=ret, status_code=200)
 
 @app.get("/topicsMetadata/")
 async def get_topics_metadata():
@@ -61,22 +73,26 @@ async def get_topics_metadata():
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-'''
-@app.get("/questionsrequestbody/")
-async def get_questionsRequestBody(ids: list):
-    questions_collection = db["Questions"]
-    questions = await questions_collection.find({"_id": {"$in": ids}}).to_list(None)
-    return questions
+@app.get("/topicsMetadata/")
+async def get_topics_metadata():
+    try:
+        topics_metadata_collection = db["SubjectGradeTopicSubtopic"]
+        topics_metadata = await topics_metadata_collection.find().to_list(None)
+        return topics_metadata
+        pass
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    
 
-@app.get("/questions/")
-async def get_questions(ids: list = Query(...)):
-    ids = [int(id) for id in ids[0].split(",")]
-    questions_collection = db["Questions"]
-    count = await questions_collection.count_documents({})
-    #print(count)
-    questions = await questions_collection.find({"_id": {"$in": ids}}).to_list(None)
-    return questions
-'''
+@app.post("/usertopicsMetadata/")
+async def post_userTopicsMetadata(userid: str="testuser@test.com",payload: dict = {}):
+    try:
+        await questionsWrapper.saveUserTopics(userid,payload)
+        return "Successfully saved user topics metadata"
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    pass
+
 class RequestPayload(BaseModel):
     Subject: str = "Physics"
     Grade: list = ["12"]
@@ -136,30 +152,20 @@ http://localhost:8000/docs
 http://localhost:8000/redoc
 
 '''
+
 '''
-@app.post("/randomtestv1/")
-@timer_decorator
-async def create_random_testv1(payload: RequestPayload):
-    coll_subtopicVsQs = db["subtopic_qids"]
-    coll_levelVsQs = db["level_qids"]
-    #print("count of subtopics",(await coll_subtopicVsQs.count_documents({})))
-    subtopicQs = []
-    levelQs = []
-    for subtopic in payload.Subtopics:
-        subtopic_doc = await coll_subtopicVsQs.find_one({"_id": subtopic})
-        #data = json.dumps(subtopic_doc['qids'])
-        if subtopic_doc:
-            subtopicQs.extend(subtopic_doc['qids'])
-        pass
-    #print(subtopicQs)
-    #return subtopicQs
-    #print("count of qs in subtopic",(await coll_subtopicVsQs.count_documents({})))
-    for level in payload.Level:
-        doc = await coll_levelVsQs.find_one({"_id": level})
-        if doc:
-            levelQs.extend(doc['qids'])
-        pass
-    intersection = list(set(subtopicQs) & set(levelQs))
-    #print("count of qs in level",(await coll_levelVsQs.count_documents({})))
-    return {"testQs": intersection}
+@app.get("/questionsrequestbody/")
+async def get_questionsRequestBody(ids: list):
+    questions_collection = db["Questions"]
+    questions = await questions_collection.find({"_id": {"$in": ids}}).to_list(None)
+    return questions
+
+@app.get("/questions/")
+async def get_questions(ids: list = Query(...)):
+    ids = [int(id) for id in ids[0].split(",")]
+    questions_collection = db["Questions"]
+    count = await questions_collection.count_documents({})
+    #print(count)
+    questions = await questions_collection.find({"_id": {"$in": ids}}).to_list(None)
+    return questions
 '''

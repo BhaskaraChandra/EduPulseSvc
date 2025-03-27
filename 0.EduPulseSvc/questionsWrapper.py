@@ -39,3 +39,10 @@ async def get_questions(ids: list = Query(...)):
     #questions = await questions_collection.find({"_id": {"$in": ids}}).to_list(None)
 
     return questions,keys
+
+async def saveUserTopics(userid:str, payload: dict):
+    userTopicsCollection = db["UserTopics"] #contains useremail(key) vs selected topics metadata(value)
+    #await userTopicsCollection.insert_one(payload)
+    await userTopicsCollection.update_one({"_id": userid}, {"$set": payload}, upsert=True)
+    print(f"user topics saved successfully for {userid}")
+    pass
