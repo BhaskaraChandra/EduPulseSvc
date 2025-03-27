@@ -1,3 +1,18 @@
 chandrabhaskaras/mongo2024
 mongodb+srv://<db_username>:<db_password>@cluster0.tfhh3.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
 mongodb+srv://chandrabhaskaras:mongo2024@cluster0.tfhh3.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+
+Project Pause Report:
+1. MVP-UI for tenant/tenantadmin/user completed.
+---TODO: productization, and serviceization.
+---TODO: need to try by deploying onto web. sofar only locally tested
+---TODO: saving and retrieving userwise topics.
+---https://github.com/BhaskaraChandra/EduPulse
+2. prototype of monolithic service created.
+---https://github.com/BhaskaraChandra/EduPulseSvc
+---https://edupulsesvc.onrender.com/docs#/default/Welcome__get
+---https://dashboard.render.com/web/srv-cvg5r1aqgecs739bvpm0/deploys/dep-cvijs8l6ubrc73dbribg
+3. Monolith mongodb
+---TODO: need to split it to multiple DBs
+---https://cloud.mongodb.com/v2/67dec880db3c4a365062e4fc#/overview
+---https://cloud.mongodb.com/v2/67dec880db3c4a365062e4fc#/metrics/replicaSet/67dec9c1c4040e17abf7af17/explorer/EduPulseTest/EduPulseTest/find
